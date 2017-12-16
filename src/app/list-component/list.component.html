@@ -1,0 +1,72 @@
+<div class = 'container' id = 'wrap'> Create Todo</div>
+<form (ngSubmit) = 'onSubmit()' #form ='ngForm' >
+<div class = 'form-row'>
+    <div class="col-auto">
+        <input 
+        type = 'text'
+        class = 'form-control'
+        placeholder="Description"
+        id = 'Description'
+        [(ngModel)] = 'model.description'
+        name = 'description'
+        #description = 'ngModel'
+        >
+    </div>
+    <div class="col-auto">
+        <input 
+        type="text"
+        class="form-control"
+        id="name"
+        placeholder="Responsible"
+        name="responsible"
+        [(ngModel)]='model.responsible'
+        #name="ngModel"
+        > 
+    </div>
+    <div class="col-auto">
+        <select 
+            name="priority"
+            class="form-control"
+            id="priority"
+            [(ngModel)]="model.priority"
+            name="priority"
+            #priority="ngModel"
+            >
+                <option value = 'High'> High </option>
+                <option value = 'Medium'> Medium</option>
+                <option value = 'Low'> Low </option>
+        </select>
+    </div>
+    <div class="col-auto">
+    <button type = 'submit'>Create</button>
+    </div> 
+</div>
+</form>
+
+<div id="wrap">Todo list</div>
+<div *ngIf='(todo|async)?.length>0'>
+    <table class = 'table'>
+        <thead class="thead-inverse">
+            <tr>
+                <th>#</th>
+                <th>Todo description</th>
+                <th>Responsible</th>
+                <th>Priority</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor = 'let t of todo|async'>
+                <td><span (click)='toggleTodo(t)' [class.completed] = 't.isActive'>{{t.id}}</span></td>
+                <td><span (click)='toggleTodo(t)'[class.completed] = 't.isActive'>{{t.description}}</span></td>
+                <td><span (click)='toggleTodo(t)'[class.completed] = 't.isActive'>{{t.responsible}}</span></td>
+                <td>
+                    <span *ngIf="t.priority == 'Low'" class='bg-info'>{{t.priority}}</span>
+                    <span *ngIf="t.priority == 'Medium'" class='bg-warning'>{{t.priority}}</span>
+                    <span *ngIf="t.priority == 'High'" class='bg-danger'>{{t.priority}}</span>
+                    
+                </td>
+                <td><button (click)='removeTodo(t)' class='btn btn-primary'>Delete</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
