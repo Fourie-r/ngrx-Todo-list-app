@@ -19,7 +19,7 @@ export function rootReducer(state, action) {
             action.payload.id = state.todo.length + 1;
             return Object.assign({}, state, {
                 todo: state.todo.concat(Object.assign({}, action.payload)),
-                lastupdate: new Date()
+                lastUpdate: new Date()
             });
 
         case actions.TOGGLE_TODO.type:
@@ -27,8 +27,9 @@ export function rootReducer(state, action) {
             const todo = state.todo.find(t => t.id === action.payload);
             const index = state.todo.indexOf(todo);
             return Object.assign({}, state, {
-               todo: [...state.todo.splice(0, index), Object.assign({}, todo, {isActive: !todo.isActive}),
-            ...state.todo.splice(index + 1)]
+               todo: [].concat(state.todo.slice(0, index), Object.assign({}, todo, {isActive: !todo.isActive}),
+                                    state.todo.slice(index + 1, state.todo.length)),
+            lastUpdate: new Date()
             });
 
         case actions.DELETE_TODO.type:
@@ -45,6 +46,18 @@ export function rootReducer(state, action) {
             todo: [],
             lastUpdate: new Date()
         });
+
+        case actions.SORT.type:
+            const sorted = state.todo.sort(function(a, b) {
+                if (a.priority < b.priority) { return -1; }
+                if (a.priority > b.priority) { return 1; }
+                return 0;
+        });
+        return Object.assign({}, state, {
+            todo: sorted,
+            lastUpdate: new Date()
+        });
+
 
         }
 

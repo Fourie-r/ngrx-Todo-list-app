@@ -17,4 +17,7 @@ export const DELETE_ALL: Actions = {
     type: 'DELETE_ALL'
 };
 
+export const SORT: Actions = {
+    type: 'SORT'
+};
 

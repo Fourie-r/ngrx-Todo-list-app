@@ -47,4 +47,8 @@ export class ListComponent implements OnInit {
         this.ngRedux.dispatch(actions.DELETE_TODO);
 
     }
+
+    sortPrio() {
+        this.ngRedux.dispatch(actions.SORT);
+    }
 }
