@@ -34,9 +34,12 @@ export function rootReducer(state, action) {
 
         case actions.DELETE_TODO.type:
             const todoIndex = state.todo.indexOf(state.todo.find(t => t.id === action.payload));
-            console.log(todoIndex);
+            let filteredTodo = state.todo.filter(t => t.id !== action.payload);
+            filteredTodo = filteredTodo.map(element => {
+                return Object.assign({}, element, {id: filteredTodo.indexOf(element) + 1});
+            });
             return Object.assign({}, state, {
-                todo: state.todo.filter(t => t.id !== action.payload),
+                todo: filteredTodo,
                 lastUpdate: new Date()
             });
 
